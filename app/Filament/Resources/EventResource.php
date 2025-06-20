@@ -58,7 +58,7 @@ class EventResource extends Resource
         // Hidden latitude/longitude fields
         LeafletMapPicker::make('location')
     ->label('Pick Event Location')
-    ->defaultZoom(6)
+    ->defaultZoom(15)
     ->defaultLocation(function ($get) {
         // Use saved coordinates if they exist, otherwise default to Saudi Arabia
         return $get('latitude') && $get('longitude') 

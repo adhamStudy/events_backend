@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Filament\Resources;
-
+use Afsakar\LeafletMapPicker\LeafletMapPicker;
 use App\Filament\Resources\EventResource\Pages;
 use App\Models\Event;
 use Filament\Forms;
@@ -50,23 +50,35 @@ class EventResource extends Resource
             ->relationship('category', 'name')
             ->required(),
             
-        Forms\Components\FileUpload::make('image')
-            ->label('Event Image')
-            ->image()
-            ->maxSize(1024),
+        // Forms\Components\FileUpload::make('image')
+        //     ->label('Event Image')
+        //     ->image()
+        //     ->maxSize(1024),
             
         // Hidden latitude/longitude fields
-        Forms\Components\Hidden::make('latitude')
-            ->required()
-            ->default(21.4858),
-            
-        Forms\Components\Hidden::make('longitude')
-            ->required()
-            ->default(39.1925),
-            
-        View::make('filament.components.leaflet-map-picker')
-            ->label(false)
-            ->columnSpanFull(),
+        LeafletMapPicker::make('location')
+    ->label('Pick Event Location')
+    ->defaultZoom(6)
+    ->defaultLocation(function ($get) {
+        // Use saved coordinates if they exist, otherwise default to Saudi Arabia
+        return $get('latitude') && $get('longitude') 
+            ? [(float)$get('latitude'), (float)$get('longitude')] 
+            : [23.8859, 45.0792];
+    })
+    ->clickable()
+    ->draggable()
+    ->afterStateUpdated(function ($state, Forms\Set $set) {
+        $set('latitude', $state['lat']);
+        $set('longitude', $state['lng']);
+    }),
+
+Forms\Components\Hidden::make('latitude')
+    ->required(),
+    
+
+Forms\Components\Hidden::make('longitude')
+    ->required()
+    ,
     ]);
     }
 

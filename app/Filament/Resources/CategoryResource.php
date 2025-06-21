@@ -6,10 +6,12 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,6 +31,17 @@ class CategoryResource extends Resource
                 ->label('Category Name')
                 ->required()
                 ->maxLength(255),
+                FileUpload::make('icon')
+                ->directory('icons') // folder inside storage/app/public
+                ->image()             // restricts to image files
+                ->imagePreviewHeight('100')
+                ->panelAspectRatio('1:1')
+                ->panelLayout('integrated')
+                ->preserveFilenames()
+                ->maxSize(1024)       // in KB
+                ->disk('public')      // use 'public' disk
+                ->nullable(),
+                
             ]);
     }
 
@@ -38,6 +51,10 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('id')->sortable(),
             TextColumn::make('name')->searchable()->sortable(),
+            ImageColumn::make('icon')
+    ->disk('public')
+    ->label('Icon')
+    ->height(40),
             ])
             ->filters([
                 //

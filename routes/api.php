@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\EventsController;
 use App\Http\Controllers\Api\AuthApiController;
+use App\Http\Controllers\Api\HomeController;
 
 Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/login', [AuthApiController::class, 'login']);
@@ -13,4 +13,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-Route::apiResource('events', EventsController::class);
+Route::apiResource('/home',HomeController::class);

@@ -50,10 +50,10 @@ class EventResource extends Resource
             ->relationship('category', 'name')
             ->required(),
             
-        // Forms\Components\FileUpload::make('image')
-        //     ->label('Event Image')
-        //     ->image()
-        //     ->maxSize(1024),
+        Forms\Components\FileUpload::make('image')
+            ->label('Event Image')
+            ->image()
+            ->maxSize(1024),
             
         // Hidden latitude/longitude fields
         LeafletMapPicker::make('location')

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,7 +35,20 @@ class BookingController extends Controller
         'event_id' => $request->event_id,
         'status' => 'success', // أو pending حسب النظام
     ]);
+
+    // minus available_seats with 1 
+    $event_id=$request->input('event_id');
+    $event=Event::find($event_id);
+
+    if (!$event){
+        return response()->json(['message'=>'event does\'nt exists'],404);
+    }
+    if ($event->available_seats<=0){
+        return response()->json(['message'=>'no available seats'],400);
+    }
     
+    $event->available_seats--;
+    $event->save();
 
     return response()->json([
         'message' => 'Booking created successfully.',

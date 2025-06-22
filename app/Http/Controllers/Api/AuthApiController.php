@@ -17,29 +17,29 @@ class AuthApiController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|confirmed|min:6',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422); // Unprocessable Entity
         }
-    
+
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
-    
-        $token = $user->createToken('api-token')->plainTextToken;
-    
+
+//        $token = $user->createToken('api-token')->plainTextToken;
+
         return response()->json([
             'message' => 'User registered successfully',
             'user'    => $user,
-            'token'   => $token,
+//            'token'   => $token,
         ], 201); // Created
     }
-    
+
 
     // ✅ LOGIN
     public function login(Request $request)

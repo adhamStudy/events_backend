@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\Category;
 use App\Models\Event;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -15,9 +15,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
-        $events= Event::all();
-        $categories=Category::all();
+
+       $events= Event::all();
+       $categories=Category::all();
 
         // dd($events);
         return [

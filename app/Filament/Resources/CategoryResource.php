@@ -34,14 +34,14 @@ class CategoryResource extends Resource
                 FileUpload::make('icon')
                 ->directory('icons') // folder inside storage/app/public
                 ->image()             // restricts to image files
-                ->imagePreviewHeight('100')
-                ->panelAspectRatio('1:1')
+//                ->imagePreviewHeight('100')
+//                ->panelAspectRatio('1:1')
                 ->panelLayout('integrated')
                 ->preserveFilenames()
-                ->maxSize(1024)       // in KB
+                ->maxSize(5000)       // in KB
                 ->disk('public')      // use 'public' disk
                 ->nullable(),
-                
+
             ]);
     }
 

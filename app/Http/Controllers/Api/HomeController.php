@@ -13,20 +13,31 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+   public function index(Request $request)
+{
+    $user = $request->user();
 
-       $events= Event::all();
-       $categories=Category::all();
+    $categories = Category::all();
+    $events = Event::all();
 
-        // dd($events);
-        return [
-            'message'=>'success',
-            'categories'=>$categories,
-                'events'=>$events
+    // 1. Get all event_ids the user has booked
+    $bookedEventIds = $user->bookings()
+                           ->where('status', 'success')
+                           ->pluck('event_id')
+                           ->toArray();
+
+    // 2. Add booked flag to each event
+    $events = $events->map(function ($event) use ($bookedEventIds) {
+        $event->booked = in_array($event->id, $bookedEventIds);
+        return $event;
+    });
+
+    return [
+        'message' => 'success',
+        'categories' => $categories,
+        'events' => $events
     ];
-
-    }
+}
 
     /**
      * Store a newly created resource in storage.

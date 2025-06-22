@@ -14,7 +14,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-Route::apiResource('/home',HomeController::class);
+Route::apiResource('/home',HomeController::class)->middleware('auth:sanctum');
 
 // Booking api
 

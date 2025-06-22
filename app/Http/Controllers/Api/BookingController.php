@@ -55,4 +55,51 @@ class BookingController extends Controller
         'booking' => $booking,
     ], 201);
 }
+
+public function cancel(Request $request){
+
+    
+
+    $request->validate([
+
+        'event_id'=>'required|exists:events,id',
+
+    ]);
+
+    $user=$request->user();
+    $event_id=$request->event_id;
+
+
+    $booking=Booking::where('user_id',$user->id)
+    ->where('event_id',$event_id)
+    ->where('status','success')
+    ->first();
+
+    if(!$booking){
+        return response()->json([
+            'status'=>false,
+            'message'=>'this booking not available'
+
+        ],404);
+    }
+
+    $booking->status='canceled';
+    $booking->save();
+    $event=Event::find($event_id);
+
+    $event->available_seats++;
+    $event->save();
+
+
+
+    return response()->json([
+        'status'=>true,
+        'message'=>'booking canceled succussfully'
+    ],201);
+
+
+
+
+
+}
 }

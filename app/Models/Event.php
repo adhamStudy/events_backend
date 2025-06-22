@@ -12,6 +12,8 @@ class Event extends Model
         'start_time',
         'end_time',
         'city_id',
+        'capacity',
+        'available_seats',
         'category_id',
         'image',
         'latitude',
@@ -19,6 +21,12 @@ class Event extends Model
         'is_active',
        
     ];
+    protected static function booted()
+    {
+        static::creating(function ($event) {
+            // عند الإنشاء، نعين available_seats = capacity
+            $event->available_seats = $event->capacity;
+        });}
 
     public function city()
     {
@@ -28,7 +36,7 @@ class Event extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    
+
     public function bookings()
 {
     return $this->hasMany(Booking::class);

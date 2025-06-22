@@ -28,6 +28,12 @@ class EventResource extends Resource
             ->required()
             ->maxLength(255),
 
+            TextInput::make('capacity')
+            ->label('Number of Chears')
+            ->required()
+            
+            ->integer(),
+
         Forms\Components\DateTimePicker::make('start_time')
             ->label('Start Time')
             ->required(),
@@ -92,6 +98,8 @@ Forms\Components\Hidden::make('longitude')
                 Tables\Columns\TextColumn::make('category.name')->label('Category')->sortable(),
                 Tables\Columns\TextColumn::make('start_time')->dateTime('Y-m-d H:i')->sortable(),
                 Tables\Columns\TextColumn::make('end_time')->dateTime('Y-m-d H:i')->sortable(),
+                Tables\Columns\TextColumn::make('capacity'),
+                Tables\Columns\TextColumn::make('available_seats'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('Y-m-d H:i')->sortable(),
             ])
             ->filters([

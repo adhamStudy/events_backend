@@ -5,6 +5,7 @@ use Afsakar\LeafletMapPicker\LeafletMapPicker;
 use App\Filament\Resources\EventResource\Pages;
 use App\Models\Event;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Form;
@@ -56,10 +57,16 @@ class EventResource extends Resource
             ->relationship('category', 'name')
             ->required(),
             
-        Forms\Components\FileUpload::make('image')
-            ->label('Event Image')
-            ->image()
-            ->maxSize(1024),
+        FileUpload::make('image')
+                ->directory('events') // folder inside storage/app/public
+                ->image()             // restricts to image files
+//                ->imagePreviewHeight('100')
+//                ->panelAspectRatio('1:1')
+                ->panelLayout('integrated')
+                ->preserveFilenames()
+                ->maxSize(5000)       // in KB
+                ->disk('public')      // use 'public' disk
+                ->nullable(),
             
         // Hidden latitude/longitude fields
         LeafletMapPicker::make('location')

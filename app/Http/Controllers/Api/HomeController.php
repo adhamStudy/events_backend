@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,12 @@ class HomeController extends Controller
 
     $categories = Category::all();
     $events = Event::all();
+$cities = City::all()->keyBy('id'); // for faster lookup
+
+       foreach ($events as $event) {
+    $event->city_name = $cities[$event->city_id]->name ?? null;
+}
+    
 
     // 1. Get all event_ids the user has booked
     $bookedEventIds = $user->bookings()

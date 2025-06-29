@@ -28,7 +28,10 @@ class EventResource extends Resource
             ->label('Event Name')
             ->required()
             ->maxLength(255),
-
+            Forms\Components\Select::make('provider_id')
+        ->label('Provider')
+        ->relationship('provider', 'name') // 'name' هو العمود الذي يعرض في السيلكت
+        ->required(),
             TextInput::make('capacity')
             ->label('Number of Chears')
             ->required()

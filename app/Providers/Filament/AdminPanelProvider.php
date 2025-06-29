@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->brandName(function () {
             $user = Filament::auth()->user();
-            return $user && $user->provider ? '👤 ' . $user->provider->name : 'لوحة المزود';
+            return $user && $user->provider ? '👤 ' . $user->provider->name : 'لوحة الادمن';
         })
             ->colors([
             'danger' => Color::Rose,

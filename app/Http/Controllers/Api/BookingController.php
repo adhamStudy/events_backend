@@ -10,6 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller 
 {
+public function index(){
+
+      $user = Auth::user();
+
+       $bookings = Booking::with('event')  // eager load the event
+    ->where('user_id', $user->id)
+    ->get();
+    // $bookings=Booking::all();
+
+    
+
+    return response()->json([
+        'status'=>true,
+        'bookings'=>$bookings,
+    ]);
+}
+
+
     public function store(Request $request)
 {
     $request->validate([

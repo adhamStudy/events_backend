@@ -19,5 +19,6 @@ Route::apiResource('/home',HomeController::class)->middleware('auth:sanctum');
 // Booking api
 
 Route::post('/booking',[BookingController::class,'store'])->middleware('auth:sanctum');
+Route::get('/booking',[BookingController::class,'index'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->post('/booking/cancel', [BookingController::class, 'cancel']);
 

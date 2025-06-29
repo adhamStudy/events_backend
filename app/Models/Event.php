@@ -41,5 +41,11 @@ class Event extends Model
 {
     return $this->hasMany(Booking::class);
 }
+public function provider()
+{
+    return $this->belongsTo(Provider::class);
+}
+
+
 
 }

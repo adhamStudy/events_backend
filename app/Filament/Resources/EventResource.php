@@ -23,7 +23,7 @@ class EventResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-    ->schema([
+     ->schema([
         TextInput::make('name')
             ->label('Event Name')
             ->required()
@@ -70,30 +70,33 @@ class EventResource extends Resource
             
         // Hidden latitude/longitude fields
         LeafletMapPicker::make('location')
-    ->label('Pick Event Location')
-    ->defaultZoom(15)
-    ->defaultLocation(function ($get) {
-        // Use saved coordinates if they exist, otherwise default to Saudi Arabia
-        return $get('latitude') && $get('longitude') 
-            ? [(float)$get('latitude'), (float)$get('longitude')] 
-            : [23.8859, 45.0792];
-    })
-    ->clickable()
-    ->draggable()
-    ->afterStateUpdated(function ($state, Forms\Set $set) {
-        $set('latitude', $state['lat']);
-        $set('longitude', $state['lng']);
-    }),
+            ->label('Pick Event Location')
+            ->defaultZoom(15)
+            ->defaultLocation(function ($get) {
+                // Use saved coordinates if they exist, otherwise default to Saudi Arabia
+                return $get('latitude') && $get('longitude') 
+                    ? [(float)$get('latitude'), (float)$get('longitude')] 
+                    : [23.8859, 45.0792];
+            }
+            )
+            ->clickable()
+            ->draggable()
+            ->afterStateUpdated(function ($state, Forms\Set $set) {
+                $set('latitude', $state['lat']);
+                $set('longitude', $state['lng']);
+            }
+        ),
 
-Forms\Components\Hidden::make('latitude')
-    ->required(),
-    
+            Forms\Components\Hidden::make('latitude')
+                ->required(),
+                
 
-Forms\Components\Hidden::make('longitude')
-    ->required()
-    ,
-    ]);
-    }
+            Forms\Components\Hidden::make('longitude')
+                ->required()
+                ,
+                ]
+            );
+     }
 
     public static function table(Table $table): Table
     {

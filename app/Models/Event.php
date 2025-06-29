@@ -19,6 +19,7 @@ class Event extends Model
         'latitude',
         'longitude',
         'is_active',
+        'provider_id'
        
     ];
     protected static function booted()

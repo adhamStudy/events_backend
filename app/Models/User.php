@@ -72,8 +72,5 @@ public function provider()
     {
         return $this->hasOne(Provider::class);
     }
-
-
-
     
 }

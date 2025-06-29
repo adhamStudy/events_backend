@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Provider;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CitySeeder extends Seeder
 {
@@ -23,5 +26,19 @@ class CitySeeder extends Seeder
         ];
 
         DB::table('cities')->insert($cities);
+        $user = User::create([
+    'name' => 'Another Provider',
+    'email' => 'another@provider.com',
+    'password' => Hash::make('password'),
+    'role' => 'provider',
+]);
+
+// إنشاء مزود الخدمة وربطه بالمستخدم
+$provider = Provider::create([
+    'user_id' => $user->id,
+    'name' => 'Another Provider Name',
+    'company_name' => 'Another Company',
+    'description' => 'Sample provider description.',
+]);
     }
 }

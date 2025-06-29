@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -26,6 +27,10 @@ class ProviderPanelProvider extends PanelProvider
             ->id('provider')
             ->path('provider')
             ->login()
+            ->brandName(function () {
+            $user = Filament::auth()->user();
+            return $user && $user->provider ? '👤 ' . $user->provider->name : 'لوحة المزود';
+        })
             ->colors([
                 'primary' => Color::Amber,
             ])

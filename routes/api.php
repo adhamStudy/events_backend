@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\MessageController;
 
 Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/login', [AuthApiController::class, 'login']);
@@ -22,3 +23,11 @@ Route::post('/booking',[BookingController::class,'store'])->middleware('auth:san
 Route::get('/booking',[BookingController::class,'index'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->post('/booking/cancel', [BookingController::class, 'cancel']);
 
+
+// Providers api
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/providers', [MessageController::class, 'getProviders']);
+    Route::post('/messages', [MessageController::class, 'sendMessage']);
+    Route::get('/messages', [MessageController::class, 'getMessages']);
+    Route::patch('/messages/{id}/status', [MessageController::class, 'updateStatus']);
+});

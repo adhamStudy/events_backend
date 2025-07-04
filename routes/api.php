@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->post('/booking/cancel', [BookingController::c
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/providers', [MessageController::class, 'getProviders']);
     Route::post('/messages', [MessageController::class, 'sendMessage']);
-    Route::get('/messages', [MessageController::class, 'getMessages']);
+    // Route::get('/messages', [MessageController::class, 'getMessages']);
     Route::patch('/messages/{id}/status', [MessageController::class, 'updateStatus']);
 });
+Route::middleware('auth:sanctum')->get('/messages/{providerId}', [MessageController::class, 'getAllMessages']);

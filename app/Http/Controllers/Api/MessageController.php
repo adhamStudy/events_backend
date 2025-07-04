@@ -43,6 +43,22 @@ class MessageController extends Controller
         ], 201);
     }
 
+
+    public function getAllMessages(Request $request, $providerId)
+{
+    $user = Auth::user();
+
+    $messages = Message::where('user_id', $user->id)
+                        ->where('provider_id', $providerId)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+    return response()->json([
+        'messages' => $messages,
+    ]);
+}
+
+
     // المزود يسترجع كل الرسائل الموجهة له مع حالة كل رسالة
     public function getMessages()
     {

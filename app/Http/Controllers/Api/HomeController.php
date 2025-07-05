@@ -18,22 +18,22 @@ class HomeController extends Controller
 {
     $user = $request->user();
 
-    $categories = Category::all();
+    $categories = Category::all()->keyBy('id'); // for quick lookup
     $events = Event::all();
-$cities = City::all()->keyBy('id'); // for faster lookup
+    $cities = City::all()->keyBy('id'); // for quick lookup
 
-       foreach ($events as $event) {
-    $event->city_name = $cities[$event->city_id]->name ?? null;
-}
-    
+    foreach ($events as $event) {
+        $event->city_name = $cities[$event->city_id]->name ?? null;
+        $event->category_name = $categories[$event->category_id]->name ?? null;
+    }
 
-    // 1. Get all event_ids the user has booked
+    // Get all event_ids the user has booked
     $bookedEventIds = $user->bookings()
-                           ->where('status', 'success')
-                           ->pluck('event_id')
-                           ->toArray();
+                        ->where('status', 'success')
+                        ->pluck('event_id')
+                        ->toArray();
 
-    // 2. Add booked flag to each event
+    // Add booked flag to each event
     $events = $events->map(function ($event) use ($bookedEventIds) {
         $event->booked = in_array($event->id, $bookedEventIds);
         return $event;
@@ -41,10 +41,11 @@ $cities = City::all()->keyBy('id'); // for faster lookup
 
     return [
         'message' => 'success',
-        'categories' => $categories,
+        'categories' => $categories->values(),
         'events' => $events
     ];
 }
+
 
     /**
      * Store a newly created resource in storage.

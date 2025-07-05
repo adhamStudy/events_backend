@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-   
+
     public function run(): void
     {
         // User::factory(10)->create();
@@ -22,15 +22,15 @@ class DatabaseSeeder extends Seeder
         // إنشاء Admin
         User::create([
             'name' => 'Admin',
-            'email' => 'admin@admin.com',
+            'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
         // إنشاء Provider
         $providerUser = User::create([
-            'name' => 'Provider',
-            'email' => 'provider@provider.com',
+            'name' => 'Beta',
+            'email' => 'beta@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'provider',
         ]);
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         // ربطه بجدول providers
         Provider::create([
             'user_id' => $providerUser->id,
-            'name' => 'Provider Name',
+            'name' => 'Beta Company',
             'company_name' => 'Provider Company',
             'description' => 'This is a test provider.',
         ]);

@@ -16,19 +16,19 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
-       public function canAccessPanel(\Filament\Panel $panel): bool
-{
-    if ($panel->getId() === 'admin') {
-        return $this->role === 'admin';
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        if ($panel->getId() === 'admin') {
+            return $this->role === 'admin';
+        }
+
+        if ($panel->getId() === 'provider') {
+            return $this->role === 'provider';
+        }
+
+        return false; // الطلاب أو غيرهم ممنوعين الدخول لأي لوحةe
     }
 
-    if ($panel->getId() === 'provider') {
-        return $this->role === 'provider';
-    }
-
-    return false; // الطلاب أو غيرهم ممنوعين الدخول لأي لوحةe
-}
-    
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +39,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -64,13 +65,12 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
     public function bookings()
-{
-    return $this->hasMany(Booking::class);
-}
+    {
+        return $this->hasMany(Booking::class);
+    }
 
-public function provider()
+    public function provider()
     {
         return $this->hasOne(Provider::class);
     }
-    
 }

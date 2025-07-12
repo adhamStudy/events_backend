@@ -11,6 +11,7 @@ class Provider extends Model
         'name',
         'company_name',
         'description',
+        'profile_image'
     ];
 
     public function user()

@@ -73,4 +73,10 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasOne(Provider::class);
     }
+
+    //Favoriates categories
+    public function favoriteCategories()
+    {
+        return $this->belongsToMany(Category::class, 'user_favorite_categories');
+    }
 }

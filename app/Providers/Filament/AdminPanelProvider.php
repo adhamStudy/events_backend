@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\EventsByCityWidget;
+use App\Filament\Widgets\EventsTableWidget;
+use App\Filament\Widgets\PopularCategoryWidget;
+use App\Filament\Widgets\PopularCityWidget;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -30,17 +34,17 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName(function () {
-            $user = Filament::auth()->user();
-            return $user && $user->provider ? '👤 ' . $user->provider->name : 'لوحة الادمن';
-        })
+                $user = Filament::auth()->user();
+                return $user && $user->provider ? '👤 ' . $user->provider->name : 'لوحة الادمن';
+            })
             ->colors([
-            'danger' => Color::Rose,
-            'gray' => Color::Gray,
-            'info' => Color::Blue,
-            'primary' => Color::Indigo,
-            'success' => Color::Emerald,
-            'warning' => Color::Orange,
-        ])
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => Color::Indigo,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -50,6 +54,11 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                PopularCityWidget::class,
+                PopularCategoryWidget::class,
+                EventsByCityWidget::class,
+                EventsTableWidget::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -66,5 +75,4 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
-    
 }

@@ -27,20 +27,20 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-               TextInput::make('name')
-                ->label('Category Name')
-                ->required()
-                ->maxLength(255),
+                TextInput::make('name')
+                    ->label('Category Name')
+                    ->required()
+                    ->maxLength(255),
                 FileUpload::make('icon')
-                ->directory('icons') // folder inside storage/app/public
-                ->image()             // restricts to image files
-//                ->imagePreviewHeight('100')
-//                ->panelAspectRatio('1:1')
-                ->panelLayout('integrated')
-                ->preserveFilenames()
-                ->maxSize(5000)       // in KB
-                ->disk('public')      // use 'public' disk
-                ->nullable(),
+                    ->directory('icons') // folder inside storage/app/public
+                    ->image()             // restricts to image files
+                    //                ->imagePreviewHeight('100')
+                    //                ->panelAspectRatio('1:1')
+                    ->panelLayout('integrated')
+                    ->preserveFilenames()
+                    ->maxSize(5000)       // in KB
+                    ->disk('public')      // use 'public' disk
+                    ->nullable(),
 
             ]);
     }
@@ -50,11 +50,11 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
-            TextColumn::make('name')->searchable()->sortable(),
-            ImageColumn::make('icon')
-    ->disk('public')
-    ->label('Icon')
-    ->height(40),
+                TextColumn::make('name')->searchable()->sortable(),
+                //         ImageColumn::make('icon')
+                // ->disk('public')
+                // ->label('Icon')
+                // ->height(40),
             ])
             ->filters([
                 //

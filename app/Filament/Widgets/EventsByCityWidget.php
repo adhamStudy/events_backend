@@ -13,7 +13,7 @@ class EventsByCityWidget extends ChartWidget
 
     protected static ?int $sort = 1;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 2;
 
     protected function getData(): array
     {
@@ -53,6 +53,8 @@ class EventsByCityWidget extends ChartWidget
     protected function getOptions(): array
     {
         return [
+            'maintainAspectRatio' => false,
+            'aspectRatio' => 1,
             'plugins' => [
                 'legend' => [
                     'display' => true,

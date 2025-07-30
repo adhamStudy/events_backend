@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Filament\Resources;
+
 use Afsakar\LeafletMapPicker\LeafletMapPicker;
 use App\Filament\Resources\EventResource\Pages;
 use App\Models\Event;
@@ -23,83 +24,85 @@ class EventResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-     ->schema([
-        TextInput::make('name')
-            ->label('Event Name')
-            ->required()
-            ->maxLength(255),
-            Forms\Components\Select::make('provider_id')
-        ->label('Provider')
-        ->relationship('provider', 'name') // 'name' هو العمود الذي يعرض في السيلكت
-        ->required(),
-            TextInput::make('capacity')
-            ->label('Number of Chears')
-            ->required()
-            
-            ->integer(),
+            ->schema(
+                [
+                    TextInput::make('name')
+                        ->label('Event Name')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\Select::make('provider_id')
+                        ->label('Provider')
+                        ->relationship('provider', 'name') // 'name' هو العمود الذي يعرض في السيلكت
+                        ->required(),
+                    TextInput::make('capacity')
+                        ->label('Number of Chears')
+                        ->required()
 
-        Forms\Components\DateTimePicker::make('start_time')
-            ->label('Start Time')
-            ->required(),
+                        ->integer(),
 
-        Forms\Components\DateTimePicker::make('end_time')
-            ->label('End Time')
-            ->required(),
+                    Forms\Components\DateTimePicker::make('start_time')
+                        ->label('Start Time')
+                        ->required(),
 
-        Forms\Components\Textarea::make('description')
-            ->label('Description')
-            ->maxLength(500),
-            
-        Forms\Components\Select::make('city_id')
-            ->label('City')
-            ->relationship('city', 'name')
-            ->required(),
-            
-        Forms\Components\Select::make('category_id')
-            ->label('Category')
-            ->relationship('category', 'name')
-            ->required(),
-            
-        FileUpload::make('image')
-                ->directory('events') // folder inside storage/app/public
-                ->image()             // restricts to image files
-//                ->imagePreviewHeight('100')
-//                ->panelAspectRatio('1:1')
-                ->panelLayout('integrated')
-                ->preserveFilenames()
-                ->maxSize(5000)       // in KB
-                ->disk('public')      // use 'public' disk
-                ->nullable(),
-            
-        // Hidden latitude/longitude fields
-        LeafletMapPicker::make('location')
-            ->label('Pick Event Location')
-            ->defaultZoom(15)
-            ->defaultLocation(function ($get) {
-                // Use saved coordinates if they exist, otherwise default to Saudi Arabia
-                return $get('latitude') && $get('longitude') 
-                    ? [(float)$get('latitude'), (float)$get('longitude')] 
-                    : [23.8859, 45.0792];
-            }
-            )
-            ->clickable()
-            ->draggable()
-            ->afterStateUpdated(function ($state, Forms\Set $set) {
-                $set('latitude', $state['lat']);
-                $set('longitude', $state['lng']);
-            }
-        ),
+                    Forms\Components\DateTimePicker::make('end_time')
+                        ->label('End Time')
+                        ->required(),
 
-            Forms\Components\Hidden::make('latitude')
-                ->required(),
-                
+                    Forms\Components\Textarea::make('description')
+                        ->label('Description')
+                        ->maxLength(500),
 
-            Forms\Components\Hidden::make('longitude')
-                ->required()
-                ,
+                    Forms\Components\Select::make('city_id')
+                        ->label('City')
+                        ->relationship('city', 'name')
+                        ->required(),
+
+                    Forms\Components\Select::make('category_id')
+                        ->label('Category')
+                        ->relationship('category', 'name')
+                        ->required(),
+
+                    FileUpload::make('image')
+                        ->directory('events') // folder inside storage/app/public
+                        ->image()             // restricts to image files
+                        //                ->imagePreviewHeight('100')
+                        //                ->panelAspectRatio('1:1')
+                        ->panelLayout('integrated')
+                        ->preserveFilenames()
+                        ->maxSize(5000)       // in KB
+                        ->disk('public')      // use 'public' disk
+                        ->nullable(),
+
+                    // Hidden latitude/longitude fields
+                    LeafletMapPicker::make('location')
+                        ->label('Pick Event Location')
+                        ->defaultZoom(15)
+                        ->defaultLocation(
+                            function ($get) {
+                                // Use saved coordinates if they exist, otherwise default to Saudi Arabia
+                                return $get('latitude') && $get('longitude')
+                                    ? [(float)$get('latitude'), (float)$get('longitude')]
+                                    : [23.8859, 45.0792];
+                            }
+                        )
+                        ->clickable()
+                        ->draggable()
+                        ->afterStateUpdated(
+                            function ($state, Forms\Set $set) {
+                                $set('latitude', $state['lat']);
+                                $set('longitude', $state['lng']);
+                            }
+                        ),
+
+                    Forms\Components\Hidden::make('latitude')
+                        ->required(),
+
+
+                    Forms\Components\Hidden::make('longitude')
+                        ->required(),
                 ]
             );
-     }
+    }
 
     public static function table(Table $table): Table
     {

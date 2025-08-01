@@ -37,16 +37,31 @@ class EventResource extends Resource
                     TextInput::make('capacity')
                         ->label('Number of Chears')
                         ->required()
-
                         ->integer(),
 
                     Forms\Components\DateTimePicker::make('start_time')
                         ->label('Start Time')
-                        ->required(),
+                        ->required()
+                        ->after('now')
+                        ->live()
+                        ->helperText('Event start time must be in the future'),
 
                     Forms\Components\DateTimePicker::make('end_time')
                         ->label('End Time')
-                        ->required(),
+                        ->required()
+                        ->after('start_time')
+                        ->live()
+                        ->helperText('End time must be after start time')
+                        ->rules([
+                            function () {
+                                return function (string $attribute, $value, \Closure $fail) {
+                                    $startTime = request()->input('data.start_time');
+                                    if ($startTime && $value && $value <= $startTime) {
+                                        $fail('The end time must be after the start time.');
+                                    }
+                                };
+                            },
+                        ]),
 
                     Forms\Components\Textarea::make('description')
                         ->label('Description')
@@ -96,7 +111,6 @@ class EventResource extends Resource
 
                     Forms\Components\Hidden::make('latitude')
                         ->required(),
-
 
                     Forms\Components\Hidden::make('longitude')
                         ->required(),
